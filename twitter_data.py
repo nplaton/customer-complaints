@@ -12,7 +12,8 @@ ACCESS_SECRET = "Slfi12057fmE8qSilYQURMnNDWK6GVqCceeuDejJKC6yi"
 def clean_tweets(tweet):
     words = []
     for word in tweet.split(" "):
-        if word not in stopwords.words('spanish') and 'http' not in word and '@' not in word:
+        #if word not in stopwords.words('spanish') and 'http' not in word and '@' not in word:
+        if 'http' not in word and '@' not in word:
             words.append(re.sub(r'\W+', '', word.lower()))
     
     return " ".join(words)

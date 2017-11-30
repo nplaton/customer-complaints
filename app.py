@@ -10,17 +10,24 @@ N = 3
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-@app.route('/')
-def index():
-    return render_template('templates/input.html')
-
-@app.route('/clustering')
-def clustering():
-	screen_name = 'iberia'
-	df = twitter_data.get_all_tweets(screen_name)
+def processing(name):
+	df = twitter_data.get_all_tweets(name)
 	model.clustering(df, N)
 	plots.timestamp_graph(df)
 	plots.word_cloud(df, N)
+
+@app.route('/')
+def index():
+    return render_template('input.html')
+
+@app.route('/clustering', methods = ['GET', 'POST'])
+def clustering():
+	if request.form['name'] is not None:
+		name = request.form['name']
+		print name
+		processing(name)
+
+	return render_template('output.html')
 
 	
 if __name__ == '__main__':
